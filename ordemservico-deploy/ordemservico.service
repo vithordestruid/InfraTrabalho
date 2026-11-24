@@ -1,0 +1,23 @@
+[Unit]
+Description=Backend do Sistema de Ordem de Servico (Spring Boot)
+After=network.target postgresql.service
+Wants=postgresql.service
+
+[Service]
+Type=simple
+User=ordemservico
+Group=ordemservico
+WorkingDirectory=/opt/ordemservico
+EnvironmentFile=/etc/ordemservico/ordemservico.env
+Environment="JAVA_OPTS=-Xms128m -Xmx384m -XX:+UseSerialGC"
+ExecStart=/usr/bin/java $JAVA_OPTS -jar /opt/ordemservico/app.jar
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
